@@ -5,7 +5,7 @@ FROM python:3.11
 WORKDIR /app
 
 # Install Chrome or Chromium browser
-RUN apt-get update && apt-get install -y chromium
+#RUN apt-get update && apt-get install -y chromium
 
 # Copy the requirements.txt file to the container
 COPY requirements.txt .
@@ -14,11 +14,13 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code to the container
-COPY maharashtra_famrut_data_scrap_new_lin.py .
+COPY . /app/
 
 # Set the environment variable to include /app in the PATH
 ENV PATH="/app:${PATH}"
 
+EXPOSE 8000
+
 # Set the command to run when the container starts
-CMD [ "python", "maharashtra_famrut_data_scrap_new_lin.py" ]
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
 
