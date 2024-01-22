@@ -1,5 +1,9 @@
 pipeline{
     agent any
+    tools{
+        jdk 'jdk'
+        nodejs 'nodejs'
+    }
     environment {
         SCANNER_HOME=tool 'sonar-server'
     }
@@ -64,7 +68,7 @@ pipeline{
         }
         stage("TRIVY Image Scan"){
             steps{
-                sh "trivy image ajinkyasd/toodoapp:latest > trivyimage.txt" 
+                sh "trivy image ajinkyasd/todoapp:latest > trivyimage.txt" 
             }
         }
         stage('Deploy to Kubernetes'){
