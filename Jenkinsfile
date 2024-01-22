@@ -64,7 +64,7 @@ pipeline{
         }
         stage("TRIVY Image Scan"){
             steps{
-                sh "trivy image ajinkyasd/netflix:latest > trivyimage.txt" 
+                sh "trivy image ajinkyasd/toodoapp:latest > trivyimage.txt" 
             }
         }
         stage('Deploy to Kubernetes'){
@@ -86,7 +86,8 @@ pipeline{
      always {
         emailext attachLog: true,
             subject: "'${currentBuild.result}'",
-            body: "Project: ${env.JOB_NAME}<br/>" +
+            body: "Hi Ajinkya, Please file below link for updates of your todoapp<br/>" + 
+                "Project: ${env.JOB_NAME}<br/>" +
                 "Build Number: ${env.BUILD_NUMBER}<br/>" +
                 "URL: ${env.BUILD_URL}<br/>",
             to: 'ajinkya.dhongade@esds.co.in',
