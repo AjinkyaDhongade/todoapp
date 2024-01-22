@@ -19,7 +19,7 @@ COPY . /app/
 # Set the environment variable to include /app in the PATH
 ENV PATH="/app:${PATH}"
 
-EXPOSE 8000
+EXPOSE 80
 
 # Set the command to run when the container starts
 CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
