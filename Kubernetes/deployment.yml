@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoapp-app
+  labels:
+    app: todoapp-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todoapp-app
+  template:
+    metadata:
+      labels:
+        app: todoapp-app
+    spec:
+      containers:
+      - name: todoapp-app
+        image: ajinkyasd/todoapp:latest
+        ports:
+        - containerPort: 80
