@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/todoapp:${{ github.ref_name }}
+
+jobs:
+  docker-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Remove old Docker image (if exists)
+        run: |
+          docker rmi -f $IMAGE_NAME || true
+
+      - name: Build Docker image
+        run: |
+          docker build --no-cache -t $IMAGE_NAME .
+
+      - name: Login to DockerHub
+        run: |
+          echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push Docker image to DockerHub
+        run: |
+          docker push $IMAGE_NAME
+          docker rmi $IMAGE_NAME
